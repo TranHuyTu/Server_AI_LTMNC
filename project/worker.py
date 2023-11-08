@@ -98,7 +98,7 @@ def create_task(task_type):
 
 
 @celery.task(name="task_call_api")
-def task_call_api(task_user_id, task_url):
+def task_call_api(task_id_product, task_user_id, task_url):
     response = requests.get(task_url)
     image_data = BytesIO(response.content)
     image_array = np.asarray(bytearray(image_data.read()), dtype=np.uint8)
@@ -162,8 +162,32 @@ def task_call_api(task_user_id, task_url):
     if response.status_code == 200:
         print('Tệp đã được tải lên thành công.')
         data = response.json()
-        print(data)
+        # Địa chỉ URL của API
+        api_url = 'https://serverltmnc.onrender.com/product/update/'+task_id_product
+
+        # Dữ liệu JSON bạn muốn truyền
+        data = {
+            "img_link":task_url,
+            "audio_link":data['url'],
+            "user_id":task_user_id
+        }
+
+        # Sử dụng thư viện json.dumps() để chuyển đổi dữ liệu thành chuỗi JSON
+        json_data = json.dumps(data)
+
+        # Đặt tiêu đề 'Content-Type' là 'application/json'
+        headers = {'Content-Type': 'application/json'}
+
+        # Gửi yêu cầu POST với dữ liệu JSON trong body
+        res = requests.put(api_url, data=json_data, headers=headers)
+        # Kiểm tra kết quả
+        if res.status_code == 200:
+            result = res.json()
+            return result
+        else:
+            print('Lỗi:', res.status_code)
+            return res.status_code
     else:
         print('Lỗi trong quá trình gửi yêu cầu.')
-        print('Lỗi:', response.status_code)
-    return True
+        return "Error:Lỗi trong quá trình gửi yêu cầu."
+    

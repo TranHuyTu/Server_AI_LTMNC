@@ -57,12 +57,15 @@ from photo_adjuster import adjust_photo
 
 import numpy as np
 import wave
+import json
 
 
 @app.post("/test_ai", status_code=201)
 def test_ai(payload: dict = Body(...)):
     # URL của hình ảnh bạn muốn đọc
+    id_product = payload.get("id_product")
     url = payload.get("url")
+    user_id = payload.get("user_id")
     image_url = url
 
     # Tải hình ảnh từ URL sử dụng thư viện requests
@@ -129,7 +132,33 @@ def test_ai(payload: dict = Body(...)):
     if response.status_code == 200:
         print('Tệp đã được tải lên thành công.')
         data = response.json()
-        return JSONResponse(data)
+        # Địa chỉ URL của API
+        api_url = 'https://serverltmnc.onrender.com/product/update/'+id_product
+
+        # Dữ liệu JSON bạn muốn truyền
+        data = {
+            "img_link":url,
+            "audio_link":data['url'],
+            "user_id":user_id
+        }
+
+        # Sử dụng thư viện json.dumps() để chuyển đổi dữ liệu thành chuỗi JSON
+        json_data = json.dumps(data)
+
+        # Đặt tiêu đề 'Content-Type' là 'application/json'
+        headers = {'Content-Type': 'application/json'}
+
+        # Gửi yêu cầu POST với dữ liệu JSON trong body
+        res = requests.put(api_url, data=json_data, headers=headers)
+        # Kiểm tra kết quả
+        if res.status_code == 200:
+            result = res.json()
+            print(result)
+            return JSONResponse(result)
+        else:
+            print('Lỗi:', res.status_code)
+            return JSONResponse({"error": res.status_code})
+        
     else:
         print('Lỗi trong quá trình gửi yêu cầu.')
         return JSONResponse({"Error":'Lỗi trong quá trình gửi yêu cầu.'})
@@ -137,10 +166,11 @@ def test_ai(payload: dict = Body(...)):
 
 @app.post("/tasks_train_ai", status_code=201)
 def tasks_train_ai(payload = Body(...)):
+    task_id_product = payload.get("id_product")
     task_url = payload["img_link"]
     task_user_id = payload["user_id"]
     print(task_user_id,task_url)
-    task = task_call_api.delay(task_user_id,task_url)
+    task = task_call_api.delay(task_id_product,task_user_id,task_url)
     print(task)
     task_result = AsyncResult(task.id)
     result = {
