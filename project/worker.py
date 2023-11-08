@@ -188,6 +188,28 @@ def task_call_api(task_id_product, task_user_id, task_url):
             print('Lỗi:', res.status_code)
             return res.status_code
     else:
-        print('Lỗi trong quá trình gửi yêu cầu.')
-        return "Error:Lỗi trong quá trình gửi yêu cầu."
+        # Địa chỉ URL của API
+        api_url = 'https://serverltmnc.onrender.com/product/update/'+task_id_product
+
+        # Dữ liệu JSON bạn muốn truyền
+        data = {
+            "img_link":task_url,
+            "audio_link":"Error",
+            "user_id":task_user_id
+        }
+
+        # Sử dụng thư viện json.dumps() để chuyển đổi dữ liệu thành chuỗi JSON
+        json_data = json.dumps(data)
+
+        # Đặt tiêu đề 'Content-Type' là 'application/json'
+        headers = {'Content-Type': 'application/json'}
+
+        # Gửi yêu cầu POST với dữ liệu JSON trong body
+        res = requests.put(api_url, data=json_data, headers=headers)
+        if res.status_code == 200:
+            result = res.json()
+            return result
+        else:
+            print('Lỗi:', res.status_code)
+            return "Error:Lỗi trong quá trình gửi yêu cầu."
     
