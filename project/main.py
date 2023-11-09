@@ -176,9 +176,19 @@ def test_ai(payload: dict = Body(...)):
 
 @app.post("/tasks_train_ai", status_code=201)
 def tasks_train_ai(payload: dict = Body(...)):
-    task_id_product = payload["id_product"]
-    task_url = payload["img_link"]
-    task_user_id = payload["user_id"]
+    # Chuyển đổi dữ liệu bytes sang chuỗi (string)
+    payload_str = payload.decode("utf-8")  # Giả sử dữ liệu là UTF-8 encoded
+
+    # Chuyển đổi chuỗi thành đối tượng dictionary
+    payload_dict = json.loads(payload_str)
+
+    # Sử dụng phương thức 'get' để truy cập giá trị
+    task_id_product = payload_dict.get("id_product")
+    task_url = payload_dict.get("img_link")
+    task_user_id = payload_dict.get("user_id")
+    # task_id_product = payload["id_product"]
+    # task_url = payload["img_link"]
+    # task_user_id = payload["user_id"]
     print(task_user_id,task_url)
     task = task_call_api.delay(task_id_product,task_user_id,task_url)
     print(task)
