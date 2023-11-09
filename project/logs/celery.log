@@ -16,3 +16,8 @@
 [2023-11-08 19:14:07,409: WARNING/ForkPoolWorker-7] ['C4', 'B4', 'A4', 'E4', 'G4', 'A4', 'B4', 'C4', 'C5', 'B4', 'B4', 'A4', 'G4', 'G4', 'F4', 'E4', 'B4', 'B4', 'B4', 'A4', 'G4', 'G4', 'F4', 'E4', 'E4', 'C4', 'E4', 'E4', 'E4', 'E4', 'F4', 'F4', 'E4', 'D4', 'D4', 'D4', 'D4', 'E4', 'E4', 'D4', 'C4', 'C4', 'G4', 'G4', 'F4', 'E4', 'F4', 'C4', 'C4']
 [2023-11-08 19:14:19,814: WARNING/ForkPoolWorker-7] Tệp đã được tải lên thành công.
 [2023-11-08 19:14:20,553: INFO/ForkPoolWorker-7] Task task_call_api[7f0483d2-de91-4fa6-9d6b-71771f34fb4d] succeeded in 41.23544625999966s: {'_id': '654a64f09095f2cea1e4e0c2', 'img_link': 'https://res.cloudinary.com/dbaul3mwo/image/upload/v1699441729/Image/dark2_vfnqnw.jpg', 'audio_link': 'https://res.cloudinary.com/dbaul3mwo/video/upload/v1699470857/Image/zg1x6jdbmfgogkrarxkk.wav', 'user_id': '65133650123ad5d80ef0c2d2', 'createdAt': '2023-11-07T16:25:20.914Z', 'updatedAt': '2023-11-08T19:14:19.385Z', '__v': 0}
+[2023-11-09 03:12:42,574: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-11-09 03:12:42,581: INFO/MainProcess] mingle: searching for neighbors
+[2023-11-09 03:12:43,597: INFO/MainProcess] mingle: all alone
+[2023-11-09 03:12:43,616: INFO/MainProcess] celery@452e2368134a ready.
+[2023-11-09 03:12:46,247: INFO/MainProcess] Events of group {task} enabled by remote.
