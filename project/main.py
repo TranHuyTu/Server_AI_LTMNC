@@ -175,8 +175,8 @@ def test_ai(payload: dict = Body(...)):
     
 
 @app.post("/tasks_train_ai", status_code=201)
-def tasks_train_ai(payload = Body(...)):
-    task_id_product = payload.get("id_product")
+def tasks_train_ai(payload: dict = Body(...)):
+    task_id_product = payload["id_product"]
     task_url = payload["img_link"]
     task_user_id = payload["user_id"]
     print(task_user_id,task_url)
